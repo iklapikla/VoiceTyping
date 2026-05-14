@@ -27,76 +27,76 @@ body {
   transition: 0.35s ease;
 }
 
-/* DARK MODE */
-
 body.dark {
   background:
     radial-gradient(circle at top left, rgba(0,122,255,0.10), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(120,120,255,0.16), transparent 36%),
-    linear-gradient(135deg, #0b0c10, #171923);
+    radial-gradient(circle at bottom right, rgba(100,100,255,0.18), transparent 38%),
+    linear-gradient(135deg, #080910, #171827);
   color: white;
 }
 
-body.dark .app {
-  background: rgba(22,22,28,0.78);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-body.dark textarea {
-  background: rgba(18,18,22,0.96);
-  color: white;
-}
-
-body.dark .header h1,
-body.dark .status {
-  color: white;
-}
-
-body.dark .header p,
-body.dark .badge {
-  color: #c8c8d0;
-}
-
-body.dark .editor-shell {
-  background: rgba(255,255,255,0.04);
-}
-
-body.dark .clear {
-  background: rgba(255,255,255,0.08);
-  color: white;
-}
-
-/* THEME TOGGLE */
-
-#themeToggle {
+.theme-wrap {
   position: fixed;
   top: 22px;
   right: 22px;
-  width: 54px;
-  height: 54px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.12),
-    inset 0 0 0 1px rgba(255,255,255,0.8);
-  font-size: 22px;
-  cursor: pointer;
   z-index: 9999;
-  transition: 0.25s ease;
 }
 
-#themeToggle:hover {
-  transform: scale(1.06);
+#themeToggle {
+  width: 78px;
+  height: 42px;
+  border-radius: 999px;
+  padding: 4px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.68);
+  backdrop-filter: blur(22px);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.toggle-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff, #f1f1f4);
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.toggle-dot::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffcc33;
+  box-shadow: 0 0 12px rgba(255,204,51,0.8);
 }
 
 body.dark #themeToggle {
-  background: rgba(40,40,48,0.72);
-  color: white;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
-/* APP */
+body.dark .toggle-dot {
+  transform: translateX(36px);
+  background: linear-gradient(180deg, #2f3340, #141722);
+}
+
+body.dark .toggle-dot::before {
+  width: 15px;
+  height: 15px;
+  background: transparent;
+  box-shadow: inset -5px -2px 0 #ffffff;
+}
 
 .app {
   width: 100%;
@@ -112,31 +112,17 @@ body.dark #themeToggle {
   transition: 0.35s ease;
 }
 
+body.dark .app {
+  background: rgba(22,22,28,0.78);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 38px 90px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
 .header {
   text-align: center;
   margin-bottom: 30px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 15px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.9);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07);
-  color: #555;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 18px;
-  transition: 0.35s ease;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  background: #34c759;
-  border-radius: 50%;
 }
 
 .header h1 {
@@ -148,12 +134,20 @@ body.dark #themeToggle {
   transition: 0.35s ease;
 }
 
+body.dark .header h1 {
+  color: white;
+}
+
 .header p {
   margin-top: 18px;
   color: #666;
   font-size: 20px;
   font-weight: 500;
   transition: 0.35s ease;
+}
+
+body.dark .header p {
+  color: #c9c9d2;
 }
 
 .controls {
@@ -188,16 +182,27 @@ button {
 }
 
 .copy {
-  background: #111;
+  background: #000;
   color: white;
   min-width: 170px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+}
+
+body.dark .copy {
+  background: #000;
+  color: white;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.40);
 }
 
 .clear {
   background: rgba(242,242,247,0.95);
   color: #111;
   min-width: 135px;
-  transition: 0.35s ease;
+}
+
+body.dark .clear {
+  background: rgba(255,255,255,0.10);
+  color: white;
 }
 
 button:hover {
@@ -213,18 +218,33 @@ button:hover {
   transition: 0.35s ease;
 }
 
+body.dark .status {
+  color: #e8e8ee;
+}
+
 .status.active {
   color: #007aff;
 }
 
+body.dark .status.active {
+  color: #65b7ff;
+}
+
 .editor-shell {
-  background: rgba(255,255,255,0.72);
-  border-radius: 34px;
-  padding: 14px;
+  background: rgba(255,255,255,0.48);
+  border-radius: 30px;
+  padding: 10px;
   box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.07),
-    0 20px 50px rgba(0,0,0,0.08);
+    inset 0 0 0 1px rgba(0,0,0,0.045),
+    0 16px 38px rgba(0,0,0,0.06);
   transition: 0.35s ease;
+}
+
+body.dark .editor-shell {
+  background: rgba(255,255,255,0.035);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 16px 38px rgba(0,0,0,0.28);
 }
 
 textarea {
@@ -233,14 +253,32 @@ textarea {
   resize: vertical;
   border: none;
   outline: none;
-  border-radius: 26px;
+  border-radius: 23px;
   padding: 30px;
   font-size: 25px;
   line-height: 1.55;
-  background: rgba(255,255,255,0.96);
+  background: rgba(255,255,255,0.98);
   color: #111;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.045);
   transition: 0.35s ease;
+}
+
+textarea:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(0,122,255,0.28),
+    0 0 0 4px rgba(0,122,255,0.08);
+}
+
+body.dark textarea {
+  background: rgba(15,15,20,0.98);
+  color: white;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.055);
+}
+
+body.dark textarea:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(101,183,255,0.35),
+    0 0 0 4px rgba(101,183,255,0.08);
 }
 
 textarea::placeholder {
@@ -256,6 +294,25 @@ textarea::placeholder {
   .app {
     padding: 24px;
     border-radius: 30px;
+  }
+
+  .theme-wrap {
+    top: 14px;
+    right: 14px;
+  }
+
+  #themeToggle {
+    width: 68px;
+    height: 38px;
+  }
+
+  .toggle-dot {
+    width: 30px;
+    height: 30px;
+  }
+
+  body.dark .toggle-dot {
+    transform: translateX(30px);
   }
 
   .header h1 {
@@ -288,15 +345,14 @@ textarea::placeholder {
 
 <body>
 
-<button id="themeToggle">🌙</button>
+<div class="theme-wrap">
+  <button id="themeToggle" aria-label="Toggle dark mode">
+    <span class="toggle-dot"></span>
+  </button>
+</div>
 
 <div class="app">
   <div class="header">
-    <div class="badge">
-      <span class="dot"></span>
-      English + Hinglish Voice Typing
-    </div>
-
     <h1>Voice to Text</h1>
     <p>Speak naturally. Your words will appear in real time.</p>
   </div>
@@ -327,25 +383,25 @@ const themeToggle = document.getElementById("themeToggle");
 let recognition;
 let isListening = false;
 let finalText = "";
-
-/* DARK MODE */
+let lastRenderedText = "";
+let userEditedManually = false;
 
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
-
-  if (document.body.classList.contains("dark")) {
-    themeToggle.innerHTML = "☀️";
-  } else {
-    themeToggle.innerHTML = "🌙";
-  }
 });
-
-/* SPEECH */
 
 if (!SpeechRecognition) {
   statusText.textContent = "Speech recognition not supported. Please use Google Chrome.";
   toggleBtn.disabled = true;
 }
+
+function syncManualText() {
+  finalText = output.value;
+  lastRenderedText = output.value;
+  userEditedManually = true;
+}
+
+output.addEventListener("input", syncManualText);
 
 function createRecognition() {
   recognition = new SpeechRecognition();
@@ -356,6 +412,10 @@ function createRecognition() {
 
   recognition.onstart = () => {
     isListening = true;
+    userEditedManually = false;
+    finalText = output.value;
+    lastRenderedText = output.value;
+
     toggleBtn.textContent = "Stop Listening";
     toggleBtn.classList.add("listening");
     statusText.textContent = "Listening... speak now";
@@ -363,6 +423,11 @@ function createRecognition() {
   };
 
   recognition.onresult = (event) => {
+    if (output.value !== lastRenderedText) {
+      finalText = output.value;
+      userEditedManually = true;
+    }
+
     let interimText = "";
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -375,7 +440,9 @@ function createRecognition() {
       }
     }
 
-    output.value = finalText + interimText;
+    const nextText = finalText + interimText;
+    output.value = nextText;
+    lastRenderedText = nextText;
     output.scrollTop = output.scrollHeight;
   };
 
@@ -392,6 +459,9 @@ function createRecognition() {
         } catch (e) {}
       }, 300);
     } else {
+      finalText = output.value;
+      lastRenderedText = output.value;
+
       toggleBtn.textContent = "Start Listening";
       toggleBtn.classList.remove("listening");
       statusText.textContent = "Mic is off";
@@ -405,6 +475,7 @@ toggleBtn.addEventListener("click", () => {
 
   if (!isListening) {
     finalText = output.value ? output.value + " " : "";
+    lastRenderedText = output.value;
     createRecognition();
 
     try {
@@ -412,6 +483,8 @@ toggleBtn.addEventListener("click", () => {
     } catch (e) {}
   } else {
     isListening = false;
+    finalText = output.value;
+    lastRenderedText = output.value;
     recognition.stop();
   }
 });
@@ -419,12 +492,11 @@ toggleBtn.addEventListener("click", () => {
 copyBtn.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(output.value);
-    copyBtn.textContent = "Copied";
 
+    copyBtn.textContent = "Copied";
     setTimeout(() => {
       copyBtn.textContent = "Copy Text";
     }, 1200);
-
   } catch {
     alert("Copy failed");
   }
@@ -432,7 +504,9 @@ copyBtn.addEventListener("click", async () => {
 
 clearBtn.addEventListener("click", () => {
   finalText = "";
+  lastRenderedText = "";
   output.value = "";
+  userEditedManually = true;
 });
 </script>
 
