@@ -69,7 +69,6 @@ body.dark {
   align-items: center;
   justify-content: center;
   transition: 0.3s ease;
-  position: relative;
 }
 
 .toggle-dot::before {
@@ -186,12 +185,6 @@ button {
   color: white;
   min-width: 170px;
   box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-}
-
-body.dark .copy {
-  background: #000;
-  color: white;
-  box-shadow: 0 14px 30px rgba(0,0,0,0.40);
 }
 
 .clear {
@@ -382,9 +375,10 @@ const themeToggle = document.getElementById("themeToggle");
 
 let recognition;
 let isListening = false;
-let finalText = "";
-let lastRenderedText = "";
-let userEditedManually = false;
+
+let committedText = "";
+let renderedText = "";
+let insertIndex = 0;
 
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
@@ -395,13 +389,36 @@ if (!SpeechRecognition) {
   toggleBtn.disabled = true;
 }
 
-function syncManualText() {
-  finalText = output.value;
-  lastRenderedText = output.value;
-  userEditedManually = true;
+function setCursorPosition(pos) {
+  output.focus();
+  output.setSelectionRange(pos, pos);
 }
 
-output.addEventListener("input", syncManualText);
+function insertAtCursor(baseText, textToInsert, position) {
+  return baseText.slice(0, position) + textToInsert + baseText.slice(position);
+}
+
+function syncFromManualEdit() {
+  committedText = output.value;
+  renderedText = output.value;
+  insertIndex = output.selectionStart;
+}
+
+output.addEventListener("input", () => {
+  syncFromManualEdit();
+});
+
+output.addEventListener("click", () => {
+  insertIndex = output.selectionStart;
+});
+
+output.addEventListener("keyup", () => {
+  insertIndex = output.selectionStart;
+});
+
+output.addEventListener("mouseup", () => {
+  insertIndex = output.selectionStart;
+});
 
 function createRecognition() {
   recognition = new SpeechRecognition();
@@ -412,9 +429,9 @@ function createRecognition() {
 
   recognition.onstart = () => {
     isListening = true;
-    userEditedManually = false;
-    finalText = output.value;
-    lastRenderedText = output.value;
+    committedText = output.value;
+    renderedText = output.value;
+    insertIndex = output.selectionStart || output.value.length;
 
     toggleBtn.textContent = "Stop Listening";
     toggleBtn.classList.add("listening");
@@ -423,9 +440,10 @@ function createRecognition() {
   };
 
   recognition.onresult = (event) => {
-    if (output.value !== lastRenderedText) {
-      finalText = output.value;
-      userEditedManually = true;
+    if (output.value !== renderedText) {
+      committedText = output.value;
+      renderedText = output.value;
+      insertIndex = output.selectionStart;
     }
 
     let interimText = "";
@@ -434,16 +452,20 @@ function createRecognition() {
       const transcript = event.results[i][0].transcript;
 
       if (event.results[i].isFinal) {
-        finalText += transcript + " ";
+        const finalChunk = transcript + " ";
+        committedText = insertAtCursor(committedText, finalChunk, insertIndex);
+        insertIndex += finalChunk.length;
       } else {
         interimText += transcript;
       }
     }
 
-    const nextText = finalText + interimText;
+    const nextText = insertAtCursor(committedText, interimText, insertIndex);
     output.value = nextText;
-    lastRenderedText = nextText;
-    output.scrollTop = output.scrollHeight;
+    renderedText = nextText;
+
+    const cursorPosition = insertIndex + interimText.length;
+    setCursorPosition(cursorPosition);
   };
 
   recognition.onerror = () => {
@@ -452,6 +474,10 @@ function createRecognition() {
   };
 
   recognition.onend = () => {
+    committedText = output.value;
+    renderedText = output.value;
+    insertIndex = output.selectionStart || output.value.length;
+
     if (isListening) {
       setTimeout(() => {
         try {
@@ -459,9 +485,6 @@ function createRecognition() {
         } catch (e) {}
       }, 300);
     } else {
-      finalText = output.value;
-      lastRenderedText = output.value;
-
       toggleBtn.textContent = "Start Listening";
       toggleBtn.classList.remove("listening");
       statusText.textContent = "Mic is off";
@@ -474,8 +497,10 @@ toggleBtn.addEventListener("click", () => {
   if (!SpeechRecognition) return;
 
   if (!isListening) {
-    finalText = output.value ? output.value + " " : "";
-    lastRenderedText = output.value;
+    committedText = output.value;
+    renderedText = output.value;
+    insertIndex = output.selectionStart || output.value.length;
+
     createRecognition();
 
     try {
@@ -483,8 +508,9 @@ toggleBtn.addEventListener("click", () => {
     } catch (e) {}
   } else {
     isListening = false;
-    finalText = output.value;
-    lastRenderedText = output.value;
+    committedText = output.value;
+    renderedText = output.value;
+    insertIndex = output.selectionStart || output.value.length;
     recognition.stop();
   }
 });
@@ -503,10 +529,11 @@ copyBtn.addEventListener("click", async () => {
 });
 
 clearBtn.addEventListener("click", () => {
-  finalText = "";
-  lastRenderedText = "";
+  committedText = "";
+  renderedText = "";
+  insertIndex = 0;
   output.value = "";
-  userEditedManually = true;
+  output.focus();
 });
 </script>
 
