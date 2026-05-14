@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Voice to Text</title>
+<title>Voice to Text Pro</title>
 
 <style>
 * {
@@ -13,35 +13,58 @@
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
 }
 
+:root {
+  --bg1: #f7f8fb;
+  --bg2: #eef2f7;
+  --card: rgba(255,255,255,0.78);
+  --text: #0b0b0f;
+  --muted: #666;
+  --textarea: rgba(255,255,255,0.96);
+  --soft: rgba(242,242,247,0.95);
+  --border: rgba(0,0,0,0.07);
+}
+
+body.dark {
+  --bg1: #07080c;
+  --bg2: #161821;
+  --card: rgba(28,28,32,0.78);
+  --text: #ffffff;
+  --muted: #b7b7bf;
+  --textarea: rgba(20,20,24,0.96);
+  --soft: rgba(58,58,64,0.95);
+  --border: rgba(255,255,255,0.10);
+}
+
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(0,122,255,0.10), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(180,180,255,0.16), transparent 36%),
-    linear-gradient(135deg, #f7f8fb, #eef2f7);
+    radial-gradient(circle at top left, rgba(0,122,255,0.13), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(180,180,255,0.18), transparent 36%),
+    linear-gradient(135deg, var(--bg1), var(--bg2));
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 28px;
-  color: #111;
+  padding: 26px;
+  color: var(--text);
+  transition: 0.35s ease;
 }
 
 .app {
   width: 100%;
-  max-width: 980px;
-  background: rgba(255,255,255,0.78);
-  backdrop-filter: blur(30px);
-  border: 1px solid rgba(255,255,255,0.9);
-  border-radius: 40px;
+  max-width: 1050px;
+  background: var(--card);
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 38px;
   box-shadow:
-    0 38px 90px rgba(0,0,0,0.13),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-  padding: 42px;
+    0 38px 90px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  padding: 36px;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .badge {
@@ -50,12 +73,12 @@ body {
   gap: 8px;
   padding: 8px 15px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.9);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07);
-  color: #555;
+  background: rgba(255,255,255,0.20);
+  box-shadow: inset 0 0 0 1px var(--border);
+  color: var(--muted);
   font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
 }
 
 .dot {
@@ -66,26 +89,114 @@ body {
 }
 
 .header h1 {
-  font-size: clamp(48px, 5.5vw, 72px);
+  font-size: clamp(46px, 5vw, 68px);
   line-height: 0.95;
-  font-weight: 900;
-  letter-spacing: -4px;
-  color: #0b0b0f;
+  font-weight: 950;
+  letter-spacing: -3px;
+  color: var(--text);
 }
 
 .header p {
-  margin-top: 18px;
-  color: #666;
-  font-size: 20px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 19px;
   font-weight: 500;
 }
 
-.controls {
+.orb-area {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  align-items: center;
+  margin: 22px 0 20px;
+}
+
+.orb {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 25%, #ffffff, #65b7ff 28%, #007aff 58%, #6a5cff 100%);
+  box-shadow:
+    0 0 30px rgba(0,122,255,0.35),
+    0 0 80px rgba(0,122,255,0.25);
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.orb::before,
+.orb::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,122,255,0.25);
+  opacity: 0;
+}
+
+.listening-orb {
+  animation: orbPulse 1.5s infinite ease-in-out;
+}
+
+.listening-orb::before {
+  animation: ring 1.6s infinite ease-out;
+}
+
+.listening-orb::after {
+  animation: ring 1.6s infinite ease-out 0.45s;
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.15); }
+}
+
+@keyframes ring {
+  0% { transform: scale(0.9); opacity: 0.65; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.wave {
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
   margin-bottom: 20px;
+}
+
+.bar {
+  width: 7px;
+  height: 12px;
+  border-radius: 999px;
+  background: #007aff;
+  opacity: 0.35;
+  transition: 0.15s ease;
+}
+
+.wave.active .bar {
+  animation: waveMove 0.9s infinite ease-in-out;
+  opacity: 1;
+}
+
+.wave.active .bar:nth-child(2) { animation-delay: 0.1s; }
+.wave.active .bar:nth-child(3) { animation-delay: 0.2s; }
+.wave.active .bar:nth-child(4) { animation-delay: 0.3s; }
+.wave.active .bar:nth-child(5) { animation-delay: 0.4s; }
+.wave.active .bar:nth-child(6) { animation-delay: 0.5s; }
+.wave.active .bar:nth-child(7) { animation-delay: 0.6s; }
+
+@keyframes waveMove {
+  0%, 100% { height: 12px; }
+  50% { height: 42px; }
+}
+
+.controls,
+.tools {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 button {
@@ -93,93 +204,140 @@ button {
   outline: none;
   cursor: pointer;
   border-radius: 999px;
-  padding: 17px 32px;
-  font-size: 18px;
+  padding: 14px 24px;
+  font-size: 16px;
   font-weight: 850;
   transition: all 0.25s ease;
 }
 
+button:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
 #toggleBtn {
-  min-width: 255px;
+  min-width: 230px;
   background: linear-gradient(180deg, #1a8cff, #007aff);
   color: white;
-  box-shadow: 0 18px 38px rgba(0,122,255,0.28);
+  box-shadow: 0 16px 34px rgba(0,122,255,0.28);
 }
 
 #toggleBtn.listening {
   background: linear-gradient(180deg, #ff5a52, #ff2d2d);
-  box-shadow: 0 18px 38px rgba(255,59,48,0.28);
+  box-shadow: 0 16px 34px rgba(255,59,48,0.30);
 }
 
-.copy {
+.black {
   background: #111;
   color: white;
-  min-width: 170px;
 }
 
-.clear {
-  background: rgba(242,242,247,0.95);
-  color: #111;
-  min-width: 135px;
+.soft {
+  background: var(--soft);
+  color: var(--text);
 }
 
-button:hover {
-  transform: translateY(-2px);
+.activeTool {
+  background: #007aff !important;
+  color: #fff !important;
+}
+
+.status-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 18px;
 }
 
 .status {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #777;
-  font-size: 18px;
-  font-weight: 700;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .status.active {
   color: #007aff;
 }
 
+.timer {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.meter-wrap {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(130,130,140,0.18);
+  overflow: hidden;
+}
+
+.meter {
+  width: 5%;
+  height: 100%;
+  background: linear-gradient(90deg, #34c759, #007aff);
+  border-radius: 999px;
+  transition: 0.12s ease;
+}
+
 .editor-shell {
-  background: rgba(255,255,255,0.72);
-  border-radius: 34px;
-  padding: 14px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 32px;
+  padding: 13px;
   box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.07),
-    0 20px 50px rgba(0,0,0,0.08);
+    inset 0 0 0 1px var(--border),
+    0 18px 45px rgba(0,0,0,0.08);
 }
 
 textarea {
   width: 100%;
-  height: 390px;
+  height: 360px;
   resize: vertical;
   border: none;
   outline: none;
-  border-radius: 26px;
-  padding: 30px;
-  font-size: 25px;
+  border-radius: 24px;
+  padding: 28px;
+  font-size: 24px;
   line-height: 1.55;
-  background: rgba(255,255,255,0.96);
-  color: #111;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+  background: var(--textarea);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 textarea::placeholder {
   color: #8a8a8f;
 }
 
+.footer-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-weight: 700;
+  margin-top: 14px;
+  font-size: 14px;
+}
+
 @media (max-width: 700px) {
   body {
-    padding: 16px;
+    padding: 14px;
     align-items: flex-start;
   }
 
   .app {
-    padding: 24px;
+    padding: 22px;
     border-radius: 30px;
   }
 
   .header h1 {
-    font-size: 44px;
+    font-size: 42px;
     letter-spacing: -2px;
   }
 
@@ -187,20 +345,23 @@ textarea::placeholder {
     font-size: 16px;
   }
 
-  button {
-    width: 100%;
-    font-size: 18px;
+  .orb {
+    width: 88px;
+    height: 88px;
   }
 
-  #toggleBtn,
-  .copy,
-  .clear {
-    min-width: auto;
+  button {
+    width: 100%;
+  }
+
+  .status-row {
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
   textarea {
-    height: 360px;
-    font-size: 21px;
+    height: 340px;
+    font-size: 20px;
   }
 }
 </style>
@@ -212,23 +373,55 @@ textarea::placeholder {
   <div class="header">
     <div class="badge">
       <span class="dot"></span>
-      English + Hinglish Voice Typing
+      English + Hinglish Voice Typing Pro
     </div>
-
     <h1>Voice to Text</h1>
     <p>Speak naturally. Your words will appear in real time.</p>
   </div>
 
-  <div class="controls">
-    <button id="toggleBtn">Start Listening</button>
-    <button class="copy" id="copyBtn">Copy Text</button>
-    <button class="clear" id="clearBtn">Clear</button>
+  <div class="orb-area">
+    <div class="orb" id="orb"></div>
   </div>
 
-  <div class="status" id="status">Mic is off</div>
+  <div class="wave" id="wave">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div class="controls">
+    <button id="toggleBtn">Start Listening</button>
+    <button class="black" id="copyBtn">Copy Text</button>
+    <button class="soft" id="clearBtn">Clear</button>
+  </div>
+
+  <div class="tools">
+    <button class="soft" id="meetingBtn">Meeting Mode: Off</button>
+    <button class="soft" id="themeBtn">Dark Mode</button>
+    <button class="soft" id="cleanupBtn">Clean Text</button>
+    <button class="soft" id="dateBtn">Insert Date/Time</button>
+  </div>
+
+  <div class="status-row">
+    <div class="status" id="status">Mic is off</div>
+    <div class="timer" id="timer">00:00</div>
+    <div class="meter-wrap">
+      <div class="meter" id="meter"></div>
+    </div>
+  </div>
 
   <div class="editor-shell">
     <textarea id="output" placeholder="Your voice text will appear here..."></textarea>
+  </div>
+
+  <div class="footer-stats">
+    <div id="wordCount">Words: 0</div>
+    <div id="charCount">Characters: 0</div>
+    <div id="modeText">Mode: Normal</div>
   </div>
 </div>
 
@@ -238,21 +431,165 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 const toggleBtn = document.getElementById("toggleBtn");
 const copyBtn = document.getElementById("copyBtn");
 const clearBtn = document.getElementById("clearBtn");
+const meetingBtn = document.getElementById("meetingBtn");
+const themeBtn = document.getElementById("themeBtn");
+const cleanupBtn = document.getElementById("cleanupBtn");
+const dateBtn = document.getElementById("dateBtn");
+
 const output = document.getElementById("output");
 const statusText = document.getElementById("status");
+const timerText = document.getElementById("timer");
+const meter = document.getElementById("meter");
+const orb = document.getElementById("orb");
+const wave = document.getElementById("wave");
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+const modeText = document.getElementById("modeText");
 
 let recognition;
 let isListening = false;
 let finalText = "";
+let meetingMode = false;
+let timerInterval = null;
+let seconds = 0;
+let audioContext;
+let analyser;
+let micSource;
+let meterAnimation;
 
 if (!SpeechRecognition) {
   statusText.textContent = "Speech recognition not supported. Please use Google Chrome.";
   toggleBtn.disabled = true;
 }
 
+function formatTime(sec) {
+  const m = String(Math.floor(sec / 60)).padStart(2, "0");
+  const s = String(sec % 60).padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  timerText.textContent = "00:00";
+  timerInterval = setInterval(() => {
+    seconds++;
+    timerText.textContent = formatTime(seconds);
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+async function startSoundMeter() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    micSource = audioContext.createMediaStreamSource(stream);
+    micSource.connect(analyser);
+    analyser.fftSize = 256;
+
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    function updateMeter() {
+      analyser.getByteFrequencyData(dataArray);
+      let sum = 0;
+
+      for (let i = 0; i < dataArray.length; i++) {
+        sum += dataArray[i];
+      }
+
+      const average = sum / dataArray.length;
+      const level = Math.min(100, Math.max(5, average * 1.8));
+      meter.style.width = level + "%";
+
+      meterAnimation = requestAnimationFrame(updateMeter);
+    }
+
+    updateMeter();
+  } catch (e) {
+    meter.style.width = "5%";
+  }
+}
+
+function stopSoundMeter() {
+  cancelAnimationFrame(meterAnimation);
+  meter.style.width = "5%";
+
+  if (audioContext) {
+    audioContext.close();
+  }
+}
+
+function cleanText(text) {
+  let t = text;
+
+  const corrections = {
+    " yadi ": " yaar ",
+    " kutte bhi fine ": " khud se refine ",
+    " bhi fine ": " refine ",
+    " per ": " par ",
+    " matlab ": " matlab ",
+    " jaise na ": " jaise ",
+    " rupees ": " ₹",
+    " percentage ": "%",
+    " percent ": "%",
+    " point one ": ".1",
+    " point two ": ".2",
+    " point three ": ".3",
+    " point four ": ".4",
+    " point five ": ".5",
+    " point six ": ".6",
+    " point seven ": ".7",
+    " point eight ": ".8",
+    " point nine ": ".9"
+  };
+
+  t = " " + t + " ";
+
+  Object.keys(corrections).forEach(key => {
+    const regex = new RegExp(key, "gi");
+    t = t.replace(regex, corrections[key]);
+  });
+
+  t = t.replace(/\s+/g, " ");
+  t = t.replace(/\b(\w+)(\s+\1\b)+/gi, "$1");
+  t = t.replace(/\s+([,.!?%₹])/g, "$1");
+  t = t.replace(/([,.!?])([^\s])/g, "$1 $2");
+  t = t.trim();
+
+  t = t.replace(/(^\s*[a-z])|([.!?]\s+[a-z])/g, function(match) {
+    return match.toUpperCase();
+  });
+
+  return t;
+}
+
+function updateStats() {
+  const text = output.value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  wordCount.textContent = "Words: " + words;
+  charCount.textContent = "Characters: " + output.value.length;
+}
+
+function addMeetingFormatting(text) {
+  let t = text;
+
+  t = t.replace(/ next point /gi, "\n• ");
+  t = t.replace(/ new point /gi, "\n• ");
+  t = t.replace(/ action item /gi, "\n\nAction Item: ");
+  t = t.replace(/ new line /gi, "\n");
+  t = t.replace(/ new paragraph /gi, "\n\n");
+  t = t.replace(/ full stop /gi, ". ");
+  t = t.replace(/ comma /gi, ", ");
+
+  return t;
+}
+
 function createRecognition() {
   recognition = new SpeechRecognition();
-
   recognition.lang = "en-IN";
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -263,16 +600,30 @@ function createRecognition() {
     toggleBtn.classList.add("listening");
     statusText.textContent = "Listening... speak now";
     statusText.classList.add("active");
+    orb.classList.add("listening-orb");
+    wave.classList.add("active");
+    startTimer();
+    startSoundMeter();
   };
 
   recognition.onresult = (event) => {
     let interimText = "";
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const transcript = event.results[i][0].transcript;
+      let transcript = event.results[i][0].transcript;
+
+      if (meetingMode) {
+        transcript = addMeetingFormatting(transcript);
+      }
+
+      transcript = cleanText(transcript);
 
       if (event.results[i].isFinal) {
-        finalText += transcript + " ";
+        if (meetingMode) {
+          finalText += transcript + "\n\n";
+        } else {
+          finalText += transcript + " ";
+        }
       } else {
         interimText += transcript;
       }
@@ -280,6 +631,7 @@ function createRecognition() {
 
     output.value = finalText + interimText;
     output.scrollTop = output.scrollHeight;
+    updateStats();
   };
 
   recognition.onerror = () => {
@@ -299,6 +651,10 @@ function createRecognition() {
       toggleBtn.classList.remove("listening");
       statusText.textContent = "Mic is off";
       statusText.classList.remove("active");
+      orb.classList.remove("listening-orb");
+      wave.classList.remove("active");
+      stopTimer();
+      stopSoundMeter();
     }
   };
 }
@@ -334,7 +690,66 @@ copyBtn.addEventListener("click", async () => {
 clearBtn.addEventListener("click", () => {
   finalText = "";
   output.value = "";
+  updateStats();
 });
+
+meetingBtn.addEventListener("click", () => {
+  meetingMode = !meetingMode;
+
+  if (meetingMode) {
+    meetingBtn.textContent = "Meeting Mode: On";
+    meetingBtn.classList.add("activeTool");
+    modeText.textContent = "Mode: Meeting";
+  } else {
+    meetingBtn.textContent = "Meeting Mode: Off";
+    meetingBtn.classList.remove("activeTool");
+    modeText.textContent = "Mode: Normal";
+  }
+});
+
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  if (document.body.classList.contains("dark")) {
+    themeBtn.textContent = "Light Mode";
+  } else {
+    themeBtn.textContent = "Dark Mode";
+  }
+});
+
+cleanupBtn.addEventListener("click", () => {
+  output.value = cleanText(output.value);
+  finalText = output.value ? output.value + " " : "";
+  updateStats();
+
+  cleanupBtn.textContent = "Cleaned";
+  setTimeout(() => {
+    cleanupBtn.textContent = "Clean Text";
+  }, 1200);
+});
+
+dateBtn.addEventListener("click", () => {
+  const now = new Date();
+  const dateTime = now.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const insertText = `\n\n[${dateTime}]\n`;
+  output.value += insertText;
+  finalText = output.value;
+  updateStats();
+});
+
+output.addEventListener("input", () => {
+  finalText = output.value;
+  updateStats();
+});
+
+updateStats();
 </script>
 
 </body>
