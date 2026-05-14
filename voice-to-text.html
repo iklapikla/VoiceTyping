@@ -15,160 +15,194 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f8f8, #e9eef5);
+  background:
+    radial-gradient(circle at top left, rgba(0,122,255,0.12), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(180,180,255,0.20), transparent 35%),
+    linear-gradient(135deg, #f7f8fb, #eef2f7);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: 36px;
   color: #111;
 }
 
 .app {
   width: 100%;
-  max-width: 900px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(28px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 34px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.12);
-  padding: 34px;
+  max-width: 1180px;
+  min-height: 820px;
+  background: rgba(255,255,255,0.76);
+  backdrop-filter: blur(34px);
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 44px;
+  box-shadow:
+    0 50px 120px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  padding: 56px;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 42px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07);
+  color: #555;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  background: #34c759;
+  border-radius: 50%;
 }
 
 .header h1 {
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: -1px;
+  font-size: clamp(58px, 7vw, 96px);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -5px;
+  color: #0b0b0f;
 }
 
 .header p {
-  margin-top: 10px;
+  margin-top: 24px;
   color: #666;
-  font-size: 16px;
+  font-size: 25px;
+  font-weight: 500;
 }
 
 .controls {
   display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 24px;
-}
-
-select, button {
-  border: none;
-  outline: none;
-  border-radius: 999px;
-  padding: 14px 22px;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-select {
-  background: #fff;
-  color: #222;
-  box-shadow: inset 0 0 0 1px #ddd;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
 }
 
 button {
+  border: none;
+  outline: none;
   cursor: pointer;
-  transition: 0.25s ease;
+  border-radius: 999px;
+  padding: 22px 42px;
+  font-size: 22px;
+  font-weight: 850;
+  transition: all 0.25s ease;
 }
 
-.start {
-  background: #007aff;
+#toggleBtn {
+  min-width: 320px;
+  background: linear-gradient(180deg, #1a8cff, #007aff);
   color: white;
-  box-shadow: 0 12px 30px rgba(0,122,255,0.35);
+  box-shadow: 0 22px 50px rgba(0,122,255,0.32);
 }
 
-.stop {
-  background: #ff3b30;
-  color: white;
-}
-
-.clear {
-  background: #f2f2f7;
-  color: #111;
+#toggleBtn.listening {
+  background: linear-gradient(180deg, #ff5a52, #ff2d2d);
+  box-shadow: 0 22px 50px rgba(255,59,48,0.32);
 }
 
 .copy {
   background: #111;
   color: white;
+  min-width: 210px;
+}
+
+.clear {
+  background: rgba(242,242,247,0.95);
+  color: #111;
+  min-width: 170px;
 }
 
 button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.01);
 }
 
 .status {
   text-align: center;
-  margin-bottom: 18px;
-  font-size: 14px;
+  margin-bottom: 28px;
   color: #777;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .status.active {
   color: #007aff;
-  font-weight: 700;
 }
 
-.editor-wrap {
-  position: relative;
+.editor-shell {
+  background: rgba(255,255,255,0.72);
+  border-radius: 38px;
+  padding: 18px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.07),
+    0 24px 60px rgba(0,0,0,0.08);
 }
 
 textarea {
   width: 100%;
-  height: 420px;
+  height: 500px;
   resize: vertical;
   border: none;
   outline: none;
-  border-radius: 28px;
-  padding: 26px;
-  font-size: 22px;
-  line-height: 1.6;
-  background: rgba(255,255,255,0.9);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+  border-radius: 30px;
+  padding: 34px;
+  font-size: 30px;
+  line-height: 1.55;
+  background: rgba(255,255,255,0.96);
   color: #111;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
 }
 
-.live-line {
-  margin-top: 14px;
-  padding: 16px 20px;
-  border-radius: 22px;
-  background: rgba(0,122,255,0.08);
-  color: #005bbd;
-  font-size: 18px;
-  min-height: 58px;
+textarea::placeholder {
+  color: #8a8a8f;
 }
 
-.hint {
-  margin-top: 18px;
-  text-align: center;
-  color: #777;
-  font-size: 14px;
-}
+@media (max-width: 700px) {
+  body {
+    padding: 18px;
+    align-items: flex-start;
+  }
 
-@media (max-width: 600px) {
   .app {
-    padding: 24px;
-    border-radius: 26px;
+    min-height: auto;
+    padding: 28px;
+    border-radius: 32px;
   }
 
   .header h1 {
-    font-size: 30px;
+    font-size: 48px;
+    letter-spacing: -2px;
   }
 
-  textarea {
-    height: 360px;
+  .header p {
+    font-size: 18px;
+  }
+
+  button {
+    width: 100%;
     font-size: 19px;
   }
 
-  button, select {
-    width: 100%;
+  #toggleBtn,
+  .copy,
+  .clear {
+    min-width: auto;
+  }
+
+  textarea {
+    height: 420px;
+    font-size: 22px;
   }
 }
 </style>
@@ -178,65 +212,57 @@ textarea {
 
 <div class="app">
   <div class="header">
+    <div class="badge">
+      <span class="dot"></span>
+      Hindi + English Voice Typing
+    </div>
+
     <h1>Voice to Text</h1>
-    <p>Speak in Hindi or English. Text will appear live while you speak.</p>
+    <p>Speak naturally. Your words will appear in real time.</p>
   </div>
 
   <div class="controls">
-    <select id="language">
-      <option value="hi-IN">Hindi + Hinglish</option>
-      <option value="en-IN">English India</option>
-      <option value="en-US">English US</option>
-    </select>
-
-    <button class="start" id="startBtn">Start Listening</button>
-    <button class="stop" id="stopBtn">Stop</button>
+    <button id="toggleBtn">Start Listening</button>
     <button class="copy" id="copyBtn">Copy Text</button>
     <button class="clear" id="clearBtn">Clear</button>
   </div>
 
   <div class="status" id="status">Mic is off</div>
 
-  <div class="editor-wrap">
+  <div class="editor-shell">
     <textarea id="output" placeholder="Your voice text will appear here..."></textarea>
-  </div>
-
-  <div class="live-line" id="liveText">Live words will appear here...</div>
-
-  <div class="hint">
-    Tip: GitHub Pages uses HTTPS, so mic permission should work. Best browser: Chrome.
   </div>
 </div>
 
 <script>
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-const startBtn = document.getElementById("startBtn");
-const stopBtn = document.getElementById("stopBtn");
-const clearBtn = document.getElementById("clearBtn");
+const toggleBtn = document.getElementById("toggleBtn");
 const copyBtn = document.getElementById("copyBtn");
+const clearBtn = document.getElementById("clearBtn");
 const output = document.getElementById("output");
-const liveText = document.getElementById("liveText");
 const statusText = document.getElementById("status");
-const language = document.getElementById("language");
 
 let recognition;
 let isListening = false;
 let finalText = "";
 
 if (!SpeechRecognition) {
-  statusText.textContent = "Speech recognition not supported. Please use Chrome or Edge.";
-  startBtn.disabled = true;
+  statusText.textContent = "Speech recognition not supported. Please use Google Chrome.";
+  toggleBtn.disabled = true;
 }
 
-function setupRecognition() {
+function createRecognition() {
   recognition = new SpeechRecognition();
-  recognition.lang = language.value;
+
+  recognition.lang = "hi-IN";
   recognition.continuous = true;
   recognition.interimResults = true;
 
   recognition.onstart = () => {
     isListening = true;
+    toggleBtn.textContent = "Stop Listening";
+    toggleBtn.classList.add("listening");
     statusText.textContent = "Listening... speak now";
     statusText.classList.add("active");
   };
@@ -255,66 +281,61 @@ function setupRecognition() {
     }
 
     output.value = finalText + interimText;
-    liveText.textContent = interimText || "Listening...";
     output.scrollTop = output.scrollHeight;
   };
 
-  recognition.onerror = (event) => {
-    statusText.textContent = "Error: " + event.error;
+  recognition.onerror = () => {
+    statusText.textContent = "Mic error. Please allow microphone and use Google Chrome.";
     statusText.classList.remove("active");
   };
 
   recognition.onend = () => {
     if (isListening) {
-      recognition.start();
+      setTimeout(() => {
+        try {
+          recognition.start();
+        } catch (e) {}
+      }, 300);
     } else {
+      toggleBtn.textContent = "Start Listening";
+      toggleBtn.classList.remove("listening");
       statusText.textContent = "Mic is off";
       statusText.classList.remove("active");
-      liveText.textContent = "Live words will appear here...";
     }
   };
 }
 
-startBtn.addEventListener("click", () => {
+toggleBtn.addEventListener("click", () => {
   if (!SpeechRecognition) return;
 
-  finalText = output.value ? output.value + " " : "";
-  setupRecognition();
+  if (!isListening) {
+    finalText = output.value ? output.value + " " : "";
+    createRecognition();
 
-  try {
-    recognition.start();
-  } catch (e) {
-    console.log(e);
+    try {
+      recognition.start();
+    } catch (e) {}
+  } else {
+    isListening = false;
+    recognition.stop();
   }
-});
-
-stopBtn.addEventListener("click", () => {
-  isListening = false;
-  if (recognition) recognition.stop();
-});
-
-clearBtn.addEventListener("click", () => {
-  finalText = "";
-  output.value = "";
-  liveText.textContent = "Live words will appear here...";
 });
 
 copyBtn.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(output.value);
     copyBtn.textContent = "Copied";
-    setTimeout(() => copyBtn.textContent = "Copy Text", 1200);
+    setTimeout(() => {
+      copyBtn.textContent = "Copy Text";
+    }, 1200);
   } catch {
     alert("Copy failed");
   }
 });
 
-language.addEventListener("change", () => {
-  if (isListening && recognition) {
-    isListening = false;
-    recognition.stop();
-    setTimeout(() => startBtn.click(), 300);
-  }
+clearBtn.addEventListener("click", () => {
+  finalText = "";
+  output.value = "";
 });
 </script>
 
